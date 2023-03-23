@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User and Product List</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js"></script>
+</head>
+<body>
+	<h1>User List</h1>
+	<div>
+		<input type="text" id="search-user" onkeyup="searchUser()" placeholder="Search user...">
+		<button onclick="addUser()">Add User</button>
+	</div>
+	<table id="user-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Hành động</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>An</td>
+				<td>An@example.com</td>
+				<td>
+					<button onclick="editUser()">Edit</button>
+					<button onclick="deleteUser()">Delete</button>
+				</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Ba</td>
+				<td>Ba@example.com</td>
+				<td>
+					<button onclick="editUser()">Edit</button>
+					<button onclick="deleteUser()">Delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h1>Product List</h1>
+	<div>
+		<input type="text" id="search-product" onkeyup="searchProduct()" placeholder="Search product...">
+		<button onclick="addProduct()">Add Product</button>
+	</div>
+	<table id="product-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Mã sản phẩm</th>
+				<th>Hành động</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Product 1</td>
+				<td>Mã sản phẩm 1</td>
+				<td>
+					<button onclick="editProduct()">Edit</button>
+					<button onclick="deleteProduct()">Delete</button>
+				</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Product 2</td>
+				<td>Mã sản phẩm 2</td>
+				<td>
+					<button onclick="editProduct()">Edit</button>
+					<button onclick="deleteProduct()">Delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+    <script>
+        // User table
+        function addUser() {
+          var table = document.getElementById("user-table");
+          var row = table.insertRow(-1);
+          var id = table.rows.length - 1;
+          var name = "New User";
+          var email = "newuser@example.com";
+          var actions = '<button onclick="editUser(this)">Edit</button>' +
+                        '<button onclick="deleteUser(this)">Delete</button>';
+          row.insertCell(0).innerHTML = id;
+          row.insertCell(1).innerHTML = name;
+          row.insertCell(2).innerHTML = email;
+          row.insertCell(3).innerHTML = actions;
+        }
+        function editUser(button) {
+    var row = button.parentNode.parentNode;
+    var nameCell = row.cells[1];
+    var emailCell = row.cells[2];
+    var nameInput = document.createElement("input");
+    var emailInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.value = nameCell.innerHTML;
+    emailInput.type = "text";
+    emailInput.value = emailCell.innerHTML;
+    nameCell.innerHTML = "";
+    emailCell.innerHTML = "";
+    nameCell.appendChild(nameInput);
+    emailCell.appendChild(emailInput);
+    button.innerHTML = "Save";
+    button.onclick = function() {
+      nameCell.innerHTML = nameInput.value;
+      emailCell.innerHTML = emailInput.value;
+      button.innerHTML = "Edit";
+      button.onclick = function() { editUser(this); };
+    };
+  }
+  
+  function deleteUser(button) {
+    var row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+  }
+
+  function searchUser() {
+    var input = document.getElementById("search-user");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("user-table");
+    var rows = table.getElementsByTagName("tr");
+    for (var i = 0; i < rows.length; i++) {
+      var name = rows[i].getElementsByTagName("td")[1];
+      if (name) {
+        var text = name.innerHTML.toUpperCase();
+        if (text.indexOf(filter) > -1) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+  }
+    </script>
+</body>
+</html>
